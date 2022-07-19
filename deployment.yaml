@@ -9,7 +9,8 @@ mysql:
   password: very_secure
 
 php:
-  ini: extension=mysqli
+  repository: rrennoir/php-mysqli
+  tag: latest
   envVars:
   - name: DB_HOST
     value: localhost
