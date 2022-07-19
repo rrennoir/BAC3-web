@@ -21,7 +21,7 @@
             echo "id: " . $row["id"] . " - Username: " . $row["username"] . " - Password: " . $row["password"] . " " . "<br>";
         }
     } else {
-        if (!$conn->query("INSERT INTO users (username, password) VALUES ($username, $password);")) {
+        if (!$conn->query("INSERT INTO users ('username', 'password') VALUES ('$username', '$password');")) {
             echo $conn->error;
         }
         echo "User $username with password $password added to DB";
