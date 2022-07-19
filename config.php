@@ -1,7 +1,7 @@
 <?php
 /* Database credentials. Assuming you are running MySQL
 server with default setting (user 'root' with no password) */
-define('DB_SERVER', 'web-mysql.web.svc.cluster.local');
+define('DB_SERVER', '127.0.0.0');
 define('DB_USERNAME', 'web');
 define('DB_PASSWORD', 'very_secure');
 define('DB_NAME', 'web');
