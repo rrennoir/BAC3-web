@@ -24,6 +24,14 @@
         echo "Querry error: " . $conn->error . "<br>";
     }
     else{
+
+        $all = $conn->query("SELECT * FROM users;");
+        if ($all->num_rows > 0){
+            while($row = $all->fetch_assoc()) {
+                echo "id: " . $row["id"]. " - Name: " . $row["username"]. " - Password: " . $row["password"]. "<br>";
+              }
+        }
+
         if ($result->num_row > 0) {
             echo "Welcome $username" . "<br>";
         } else {
