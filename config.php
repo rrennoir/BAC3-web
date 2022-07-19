@@ -7,10 +7,10 @@ define('DB_PASSWORD', 'very_secure');
 define('DB_NAME', 'web');
  
 /* Attempt to connect to MySQL database */
-$link = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
  
 // Check connection
-if($link->connect_error){
+if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
 }
 ?>
