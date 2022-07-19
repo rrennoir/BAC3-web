@@ -11,7 +11,7 @@
 
     require_once "config.php";
 
-    $username = $_POST["name"];
+    $username = $_POST["username"];
     $password = $_POST["password"];
 
     $result = $conn->query("SELECT * in users WHERE $username LIKE username & $password LIKE password");
@@ -21,7 +21,7 @@
             echo "id: " . $row["id"] . " - Username: " . $row["username"] . " - Password: " . $row["password"] . " " . "<br>";
         }
     } else {
-        if (!$conn->query("INSERT INTO users (username, password) VALUES ($username, $password)")) {
+        if (!$conn->query("INSERT INTO users (username, password) VALUES ($username, $password);")) {
             echo $conn->error;
         }
         echo "User $username with password $password added to DB";
