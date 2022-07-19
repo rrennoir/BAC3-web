@@ -1,0 +1,21 @@
+git:
+  enabled: true
+  repoURL: https://github.com/rrennoir/BAC3-web.git
+
+mysql:
+  database: web
+  rootPassword: very_secure
+  user: dev
+  password: very_secure
+
+php:
+
+  envVars:
+  - name: DB_HOST
+    value: localhost
+  - name: DB_USER
+    value: dev
+  - name: DB_PASSWORD
+    value: very_secure
+  - name: DB_DATABASE
+    value: web

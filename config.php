@@ -6,11 +6,12 @@ define('DB_USERNAME', 'web');
 define('DB_PASSWORD', 'very_secure');
 define('DB_NAME', 'web');
  
-/* Attempt to connect to MySQL database */
-$link = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
- 
-// Check connection
-if($link->connect_error){
-    die("Connection failed: " . $conn->connect_error);
-}
+try {
+    $link = new PDO("mysql:host=localhost;dbname=web", DB_USERNAME, DB_PASSWORD);
+    // set the PDO error mode to exception
+    $link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully";
+  } catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+  }
 ?>
