@@ -16,20 +16,6 @@
         </b> today!
     </div>
 
-    <?php 
-        $sql = "SELECT * FROM test";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-            echo "id: " . $row["id"]. " - Value: " . $row["value"]. " " . "<br>";
-            }
-        } else {
-            echo "0 results";
-        }
-    ?>
-
     <form action="/dumb-login.php" method="POST" autocomplete="on">
         <label>Username</label><br>
         <input type="text" name="username"><br>
