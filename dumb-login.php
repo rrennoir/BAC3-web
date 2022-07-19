@@ -7,41 +7,28 @@
 <body>
 
     <?php
-
-
     require_once "config.php";
 
     $username = $_POST["username"];
     $password = $_POST["password"];
 
     $query = "SELECT * FROM users WHERE users.username = '$username' AND users.password = '$password';";
-
-    echo $query;
-
     $result = $conn->query($query);
 
     if (!$result) {
-        echo "Querry error: " . $conn->error . "<br>";
-    }
-    else{
-
-        $all = $conn->query("SELECT * FROM users;");
-        if ($all->num_rows > 0){
-            while($row = $all->fetch_assoc()) {
-                echo "id: " . $row["id"]. " - Name: " . $row["username"]. " - Password: " . $row["password"]. "<br>";
-              }
-        }
-
+        echo "Querry SELECT error: " . $conn->error . "<br>";
+    } else {
         if ($result->num_rows > 0) {
             echo "Welcome $username" . "<br>";
         } else {
             if (!$conn->query("INSERT INTO users (username, password) VALUES ('$username', '$password');")) {
-                echo "Querry error: " . $conn->error . "<br>";
+                echo "Querry INSERT error: " . $conn->error . "<br>";
             }
-            echo "User $username with password $password added to DB" . "<br>";
+            else{
+                echo "User added $username with password $password added to DB" . "<br>";
+            }
         }
     }
-
     ?>
 
 </body>
