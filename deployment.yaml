@@ -9,7 +9,7 @@ mysql:
   password: very_secure
 
 php:
-
+  ini: extension=mysqli
   envVars:
   - name: DB_HOST
     value: localhost
