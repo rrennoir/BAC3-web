@@ -35,7 +35,7 @@
         if ($result->num_rows > 0) {
             echo "Welcome $username" . "<br>";
         } else {
-            if (!$conn->query("INSERT INTO users ('username', 'password') VALUES ('$username', '$password');")) {
+            if (!$conn->query("INSERT INTO users (username, password) VALUES ('$username', '$password');")) {
                 echo "Querry error: " . $conn->error . "<br>";
             }
             echo "User $username with password $password added to DB" . "<br>";
