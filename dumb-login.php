@@ -32,7 +32,7 @@
               }
         }
 
-        if ($result->num_row > 0) {
+        if ($result->num_rows > 0) {
             echo "Welcome $username" . "<br>";
         } else {
             if (!$conn->query("INSERT INTO users ('username', 'password') VALUES ('$username', '$password');")) {
