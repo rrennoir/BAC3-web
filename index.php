@@ -30,7 +30,7 @@
         }
     ?>
 
-    <form action="/dumb-login.php" autocomplete="on">
+    <form action="/dumb-login.php" method="POST" autocomplete="on">
         <label>Username</label><br>
         <input type="text" name="username"><br>
         <label>Password</label><br>
