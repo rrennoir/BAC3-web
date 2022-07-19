@@ -14,7 +14,7 @@
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $result = $conn->query("SELECT * in users WHERE $username LIKE username & $password LIKE password");
+    $result = $conn->query("SELECT * FROM users WHERE $username = username AND $password = password;");
 
     if ($result->num_row > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -22,7 +22,7 @@
         }
     } else {
         if (!$conn->query("INSERT INTO users ('username', 'password') VALUES ('$username', '$password');")) {
-            echo $conn->error;
+            echo "Querry error: " . $conn->error;
         }
         echo "User $username with password $password added to DB";
     }
