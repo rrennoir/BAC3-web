@@ -30,11 +30,11 @@
         }
     ?>
 
-    <form action="" autocomplete="on">
+    <form action="/dumb-login.php" autocomplete="on">
         <label>Username</label><br>
-        <input type="text"><br>
+        <input type="text" name="username"><br>
         <label>Password</label><br>
-        <input type="text"><br><br>
+        <input type="text" name="password"><br><br>
         <input type="submit" value="Login">
     </form>
 
