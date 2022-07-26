@@ -63,8 +63,10 @@ session_start();
 
         while ($result.mysqli_fetch_assoc($row)) {   //Creates a loop to loop through results
             if ($row['username'] == $_SESSION["username"]){
-                echo $row['username'] . " " . $row['password'];
+                echo "<tr><td>" . $row['id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['password'] . "</td></tr>";
             }
+
+            echo "the other users";
             echo "<tr><td>" . htmlspecialchars($row['id']) . "</td><td>" . htmlspecialchars($row['username']) . "</td></tr>";  //$row['index'] the index here is a field name
         }
 
