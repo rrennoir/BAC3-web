@@ -24,7 +24,7 @@
     } else {
         if ($result->num_rows > 0) {
             echo "Welcome $username" . "<br>";
-            header("Location:http://10.10.2.104/index.php");
+            $_SESSION["username"] = $username;
         } else {
             if (!$conn->query("INSERT INTO users (username, password) VALUES ('$username', '$password');")) {
                 echo "Querry INSERT error: " . $conn->error . "<br>";
