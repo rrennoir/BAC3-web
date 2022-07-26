@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+session_start();
+session_unset();
+$success = session_destroy(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,11 +14,39 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
+<nav class="navbar navbar-expand-sm bg-light">
+
+    <div class="container-fluid">
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/index.php">Home</a>
+            </li>
+        </ul>
+
+        <?php
+        if (!is_null($_SESSION["username"])) : { ?>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                        <?php echo $_SESSION["username"]; ?>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/profile.php">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">My exams</a></li>
+                        <li><a class="dropdown-item" href="/logout.php">Logout</a></li>
+                    </ul>
+                </div>
+            <?php }
+        else : ?>
+            <li class="nav-item">
+                <a class="nav-link" href="/login.php">Login / Sign in</a>
+            </li>
+        <?php endif ?>
+    </div>
+</nav>
+
 <body>
-    <?php 
-    session_unset();
-    $success = session_destroy();
-    echo "loged out" . $success . "<br>";
-     ?>
+    <?php echo "loged out " . $success . "<br>"; ?>
 </body>
+
 </html>

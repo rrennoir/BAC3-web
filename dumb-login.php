@@ -7,6 +7,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
 
+<nav class="navbar navbar-expand-sm bg-light">
+
+    <div class="container-fluid">
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/index.php">Home</a>
+            </li>
+        </ul>
+
+        <?php
+        if (!is_null($_SESSION["username"])) : { ?>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                        <?php echo $_SESSION["username"]; ?>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/profile.php">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">My exams</a></li>
+                        <li><a class="dropdown-item" href="/logout.php">Logout</a></li>
+                    </ul>
+                </div>
+            <?php }
+        else : ?>
+            <li class="nav-item">
+                <a class="nav-link" href="/login.php">Login / Sign in</a>
+            </li>
+        <?php endif ?>
+    </div>
+</nav>
+
 <body>
 
     <?php
