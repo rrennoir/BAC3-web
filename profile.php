@@ -1,30 +1,6 @@
 <?php
 // Start the session
-session_start();
-
-function Login(){
-    require_once "config.php";
-    $username = $_SESSION["username"];
-    $query = "SELECT * FROM users WHERE users.username = '$username';";
-
-    $result = $conn->query($query);
-
-    if (!$result) {
-        echo "Querry SELECT error: " . $conn->error . "<br>";
-    } elseif ($result->num_rows > 0) {
-
-        echo "<table>"; // start a table tag in the HTML
-
-        while ($row = $result->fetch_assoc()) {   //Creates a loop to loop through results
-            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['password'] . "</td></tr>";
-        }
-
-        echo "</table>";
-    } else {
-        echo "User doesn't exist";
-    }
-}
-?>
+session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,8 +48,25 @@ function Login(){
     <h1>Such emptyness, such wow</h1>
 
     <?php
-    if ($_POST){
-        Login();
+    require_once "config.php";
+    $username = $_SESSION["username"];
+    $query = "SELECT * FROM users WHERE users.username = '$username';";
+
+    $result = $conn->query($query);
+
+    if (!$result) {
+        echo "Querry SELECT error: " . $conn->error . "<br>";
+    } elseif ($result->num_rows > 0) {
+
+        echo "<table>"; // start a table tag in the HTML
+
+        while ($row = $result->fetch_assoc()) {   //Creates a loop to loop through results
+            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['password'] . "</td></tr>";
+        }
+
+        echo "</table>";
+    } else {
+        echo "User doesn't exist";
     }
 
     ?>
