@@ -61,7 +61,7 @@ session_start();
 
         echo "<table>"; // start a table tag in the HTML
 
-        while ($result.mysqli_fetch_assoc($row)) {   //Creates a loop to loop through results
+        while ($result->fetch_assoc($row)) {   //Creates a loop to loop through results
             if ($row['username'] == $_SESSION["username"]){
                 echo "<tr><td>" . $row['id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['password'] . "</td></tr>";
             }
