@@ -50,7 +50,7 @@ session_start(); ?>
     <?php
     require_once "config.php";
     $username = $_SESSION["username"];
-    $query = "SELECT * FROM users WHERE users.username = '$username';";
+    $query = "SELECT * FROM user WHERE users.username = '$username';";
 
     $result = $conn->query($query);
 
@@ -61,7 +61,7 @@ session_start(); ?>
         echo "<table>"; // start a table tag in the HTML
 
         while ($row = $result->fetch_assoc()) {   //Creates a loop to loop through results
-            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['password'] . "</td></tr>";
+            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['psw'] . "</td><td>" . $row['firstname'] . "</td><td>" . $row['lastname'] . "</td><td>";
         }
 
         echo "</table>";

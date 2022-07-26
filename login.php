@@ -17,15 +17,21 @@ function Login()
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $query = "SELECT * FROM user WHERE users.username = '$username' AND users.password = '$password';";
+    $query = "SELECT * FROM user WHERE users.username = '$username';";
     $result = $conn->query($query);
 
     if (!$result) {
         echo "Querry SELECT error: " . $conn->error . "<br>";
     } elseif ($result->num_rows > 0) {
 
-        $_SESSION["username"] = $username;
-        return true;
+        $row = $result->fetch_assoc();
+
+        if (password_verify($password, $row["psw"])){
+            $_SESSION["username"] = $username;
+            return true;
+        }
+        echo "Invalid password";
+
     } else {
         echo "No user found";
     }

@@ -38,7 +38,10 @@ function AddUserToDb($conn)
     $password = $_POST["password"];
     $firstname = $_POST["firstname"];
     $lastname = $_POST["lastname"];
-    $query = "INSERT INTO user (username, psw, firstname, lastname) VALUES ('$username', '$password', '$firstname', '$lastname');";
+
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    $query = "INSERT INTO user (username, psw, firstname, lastname) VALUES ('$username', '$hashed_password', '$firstname', '$lastname');";
     $result = $conn->query($query);
     if (!$result) {
         echo "failed to add user" . $conn->error . "<br>";
