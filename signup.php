@@ -1,5 +1,16 @@
 <?php session_start();
 
+if ($_POST) {
+    if (Signup()){
+        header('Location: index.php');
+        exit();
+    }
+    else{
+        $error = "Username already exist";
+    }
+}
+
+
 function Signup()
 {
     require_once "config.php";
@@ -23,8 +34,8 @@ function Signup()
 
 function AddUserToDb()
 {
-
     require_once "config.php";
+
     $username = $_POST["username"];
     $password = $_POST["password"];
     $query = "INSERT INTO users (username, password) VALUES ('$username', '$password');";
@@ -92,13 +103,7 @@ function AddUserToDb()
         <input type="text" name="password"><br><br>
         <input type="submit" value="Login">
     </form>
-    <?php
-
-    if ($_POST) {
-        Signup();
-    }
-
-    ?>
+    <?php echo $error ?>
 </body>
 
 </html>

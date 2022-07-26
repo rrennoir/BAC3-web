@@ -1,5 +1,15 @@
 <?php session_start();
 
+if ($_POST) {
+    if (Login()) {
+        header('Location: index.php');
+        exit();
+    }
+    else{
+        $error = "Invalid username / password";
+    }
+}
+
 function Login()
 {
     require_once "config.php";
@@ -75,17 +85,9 @@ function Login()
         <input type="text" name="password"><br><br>
         <input type="submit" value="Login">
     </form>
-    <a value="No account yet ?" href="/signup.php">
-        <?php
+    <a href="/signup.php">No account yet ?</a>
 
-        if ($_POST) {
-            if (Login()) {
-                header('Location: index.php');
-                exit();
-            }
-        }
-
-        ?>
+    <?php echo $error;?>
 </body>
 
 </html>
