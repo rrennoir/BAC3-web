@@ -62,12 +62,7 @@ session_start();
         echo "<table>"; // start a table tag in the HTML
 
         while ($row = $result->fetch_assoc()) {   //Creates a loop to loop through results
-            if ($row['username'] == $_SESSION["username"]){
-                echo "<tr><td>" . $row['id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['password'] . "</td></tr>";
-            }
-
-            echo "the other users";
-            echo "<tr><td>" . htmlspecialchars($row['id']) . "</td><td>" . htmlspecialchars($row['username']) . "</td></tr>";  //$row['index'] the index here is a field name
+            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['password'] . "</td></tr>";
         }
 
         echo "</table>";
