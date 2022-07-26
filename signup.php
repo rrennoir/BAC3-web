@@ -25,17 +25,15 @@ function Signup()
         echo "Querry SELECT error: " . $conn->error . "<br>";
     } elseif ($result->num_rows == 0) {
         $_SESSION["username"] = $username;
-        return AddUserToDb();
+        return AddUserToDb($conn);
     } else {
         echo "User already exist";
     }
     return false;
 }
 
-function AddUserToDb()
+function AddUserToDb($conn)
 {
-    require_once "config.php";
-
     $username = $_POST["username"];
     $password = $_POST["password"];
     $query = "INSERT INTO users (username, password) VALUES ('$username', '$password');";
