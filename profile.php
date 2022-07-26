@@ -20,7 +20,7 @@ session_start();
         <!-- Links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="/index.php">Home</a>
             </li>
         </ul>
 
@@ -31,7 +31,7 @@ session_start();
                         <?php echo $_SESSION["username"]; ?>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/profile.php">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li><a class="dropdown-item" href="#">My exams</a></li>
                         <li><a class="dropdown-item" href="/logout.php">Logout</a></li>
                     </ul>
@@ -46,11 +46,10 @@ session_start();
 </nav>
 
 <body>
-    <div class="container-fluid">
-        <?php echo "Hello PHP" ?>
-    </div>
-
     <h1>Such emptyness, such wow</h1>
+
+    <?php echo $_SESSION["username"] ?>
+
 </body>
 
 </html>
