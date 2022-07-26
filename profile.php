@@ -48,8 +48,32 @@ session_start();
 <body>
     <h1>Such emptyness, such wow</h1>
 
-    <?php echo $_SESSION["username"] ?>
+    <?php
+    require_once "config.php";
+    $username = $_SESSION["username"];
+    $query = "SELECT * FROM users WHERE users.username = '$username';";
 
+    $result = $conn->query($query);
+
+    if (!$result) {
+        echo "Querry SELECT error: " . $conn->error . "<br>";
+    } elseif ($result->num_rows > 0) {
+
+        echo "<table>"; // start a table tag in the HTML
+
+        while ($result.mysqli_fetch_assoc($row)) {   //Creates a loop to loop through results
+            if ($row['username'] == $_SESSION["username"]){
+                echo $row['username'] . " " . $row['password'];
+            }
+            echo "<tr><td>" . htmlspecialchars($row['id']) . "</td><td>" . htmlspecialchars($row['username']) . "</td></tr>";  //$row['index'] the index here is a field name
+        }
+
+        echo "</table>";
+    } else {
+        echo "User doesn't exist";
+    }
+
+    ?>
 </body>
 
 </html>
