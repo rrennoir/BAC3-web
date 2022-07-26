@@ -1,8 +1,46 @@
-<?php session_start(); ?>
+<?php session_start();
 
+function Signup()
+{
+    require_once "config.php";
+
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $query = "SELECT * FROM users WHERE users.username = '$username';";
+    $result = $conn->query($query);
+
+    if (!$result) {
+        echo "Querry SELECT error: " . $conn->error . "<br>";
+    } elseif ($result->num_rows == 0) {
+        $_SESSION["username"] = $username;
+        return AddUserToDb();
+    } else {
+        echo "User already exist";
+    }
+    return false;
+}
+
+function AddUserToDb()
+{
+
+    require_once "config.php";
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $query = "INSERT INTO users (username, password) VALUES ('$username', '$password');";
+    $result = $conn->query($query);
+    if (!$result) {
+        echo "failed to add user" . $conn->error . "<br>";
+        return false;
+    }
+    return true;
+}
+
+?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <title>Examen web</title>
     <meta charset="utf-8">
@@ -43,34 +81,24 @@
 </nav>
 
 <body>
-
+    <form method="POST" autocomplete="on">
+        <label>Username/E-mail</label><br>
+        <input type="text" name="username"><br>
+        <label>FirstName</label><br>
+        <input type="text" name="firstname"><br>
+        <label>LastName</label><br>
+        <input type="text" name="lastname"><br>
+        <label>Password</label><br>
+        <input type="text" name="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
     <?php
 
-    require_once "config.php";
-
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-
-    $query = "SELECT * FROM users WHERE users.username = '$username' AND users.password = '$password';";
-    $result = $conn->query($query);
-
-    if (!$result) {
-        echo "Querry SELECT error: " . $conn->error . "<br>";
-    } else {
-        if ($result->num_rows > 0) {
-            echo "Welcome $username" . "<br>";
-            $_SESSION["username"] = $username;
-        } else {
-            if (!$conn->query("INSERT INTO users (username, password) VALUES ('$username', '$password');")) {
-                echo "Querry INSERT error: " . $conn->error . "<br>";
-            } else {
-                echo "User added $username with password $password added to DB" . "<br>";
-            }
-        }
+    if ($_POST) {
+        Signup();
     }
 
     ?>
-
 </body>
 
 </html>
