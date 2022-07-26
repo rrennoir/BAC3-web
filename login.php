@@ -17,7 +17,7 @@ function Login()
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $query = "SELECT * FROM users WHERE users.username = '$username' AND users.password = '$password';";
+    $query = "SELECT * FROM user WHERE users.username = '$username' AND users.password = '$password';";
     $result = $conn->query($query);
 
     if (!$result) {

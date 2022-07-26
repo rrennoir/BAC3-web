@@ -18,7 +18,7 @@ function Signup()
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $query = "SELECT * FROM users WHERE users.username = '$username';";
+    $query = "SELECT * FROM user WHERE users.username = '$username';";
     $result = $conn->query($query);
 
     if (!$result) {
@@ -36,7 +36,9 @@ function AddUserToDb($conn)
 {
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $query = "INSERT INTO users (username, password) VALUES ('$username', '$password');";
+    $firstname = $_POST["firstname"];
+    $lastname = $_POST["lastname"];
+    $query = "INSERT INTO user (username, psw, firstname, lastname) VALUES ('$username', '$password', '$firstname', '$lastname');";
     $result = $conn->query($query);
     if (!$result) {
         echo "failed to add user" . $conn->error . "<br>";
