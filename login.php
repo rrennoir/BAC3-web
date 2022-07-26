@@ -24,7 +24,6 @@ function Login()
         echo "Querry SELECT error: " . $conn->error . "<br>";
     } elseif ($result->num_rows > 0) {
 
-        echo "Welcome $username" . "<br>";
         $_SESSION["username"] = $username;
         return true;
     } else {
