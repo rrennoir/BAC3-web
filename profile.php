@@ -50,7 +50,7 @@ session_start(); ?>
     <?php
     require_once "config.php";
     $username = $_SESSION["username"];
-    $query = "SELECT * FROM user WHERE users.username = '$username';";
+    $query = "SELECT * FROM user WHERE user.username = '$username';";
 
     $result = $conn->query($query);
 

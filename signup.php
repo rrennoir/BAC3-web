@@ -18,7 +18,7 @@ function Signup()
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $query = "SELECT * FROM user WHERE users.username = '$username';";
+    $query = "SELECT * FROM user WHERE user.username = '$username';";
     $result = $conn->query($query);
 
     if (!$result) {
