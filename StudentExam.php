@@ -1,6 +1,40 @@
 <?php
 // Start the session
 session_start();
+
+function GetUserId(){
+    require_once "config.php";
+    $username = $_SESSION["username"];
+    $result = $conn->query("SELECT id FROM user WHERE user.username = '$username'");
+
+    if (!$result) {
+        echo "Error in the DB query: " . $conn->error;
+    }
+
+    if ($result->num_rows == 0) {
+        echo "User not in database";
+    }
+    $row = $result->fetch_assoc();
+    return $row["id"];
+}
+
+function GetClass($id){
+
+    require_once "config.php";
+
+    $result = $conn->query("SELECT student_id FROM class INNER JOIN class_student ON class.id = class_student.class_id AND student_id = '$id';");
+
+    $classes = array();
+
+    if ($result && $result->num_rows) {
+        while ($row = $result->fetch_assoc()) { 
+            array_push($classes, $row["class_name"]);
+        }
+    }
+
+    return $classes;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -47,39 +81,19 @@ session_start();
 
 <body>
     <?php
-    require_once "config.php";
-    $username = $_SESSION["username"];
-    $result = $conn->query("SELECT id FROM user WHERE user.username = '$username'");
+    
 
-    if (!$result) {
-        echo "Error in the DB query: " . $conn->error;
-        die();
+    $user_id = GetUserId();
+
+    echo "UserId is: " . $user_id;
+
+    if ($user_id == 0){
+        echo "can't find user";
     }
+    else{
+        $classes = GetClass($user_id);
 
-    if ($result->num_rows == 0) {
-        echo "User not in database";
-        die();
-    }
-    $row = $result->fetch_assoc();
-    $user_id = $row["id"];
-    $result = $conn->query("SELECT student_id FROM class INNER JOIN class_student ON class.id = class_student.class_id AND student_id = '$user_id';");
-
-    if (!$result) {
-        echo "Error in DB query: " . $conn->error;
-        die();
-    }
-
-    if ($result->num_rows == 0) {
-        echo "Registered to no classes";
-    } else {
-
-        echo "<table>"; // start a table tag in the HTML
-
-        while ($row = $result->fetch_assoc()) {   //Creates a loop to loop through results
-            echo "<tr><td>" . $row['class_name'] . "</td><td>";
-        }
-
-        echo "</table>";
+        echo "found: " . count($classes);
     }
 
     ?>
