@@ -99,7 +99,7 @@ function GetClass($id){
         echo "<h1> Classes: </h1>";
 
         foreach ($classes as $class){
-            echo "<h2>" . $class . "</h2>";
+            echo "<h2>$classes[$class]</h2>";
         }
     }
 
