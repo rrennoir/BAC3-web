@@ -117,6 +117,9 @@ function GetExamInfo($class_info){
         echo "<h2>Exams</h2>";
         foreach ($classes as $class){
             $exam = GetExamInfo($class);
+
+            echo count($exam);
+
             if ($exam){
                 echo "<h3>" . $exam["name"] . " " . $exam["exam_start_date"] . $exam["duration"] . "</h3>";
             }
