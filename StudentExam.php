@@ -86,7 +86,7 @@ function GetClass($id){
 
     $user_id = GetUserId();
 
-    echo "UserId is: " . $user_id;
+    echo "UserId is: " . $user_id . "<br>";
 
     if ($user_id == 0){
         echo "can't find user";
@@ -97,6 +97,8 @@ function GetClass($id){
         echo "Found: " . count($classes) . "<br>";
 
         echo "<h1> Classes: </h1>";
+
+        echo $classes;
 
         foreach ($classes as $class){
             echo "<h2>$classes[$class]</h2>";
