@@ -118,7 +118,7 @@ function GetExamInfo($class_info){
         foreach ($classes as $class){
             $exam = GetExamInfo($class);
             if ($exam){
-                echo "<h3>" . implode(", ", $exam) . "</h3>";
+                echo "<h3>" . $exam["name"] . " " . $exam["exam_start_date"] . $exam["duration"] . "</h3>";
             }
         }
     }
