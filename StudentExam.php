@@ -83,23 +83,14 @@ function GetClass($id){
 <body>
     <?php
     
-
     $user_id = GetUserId();
-
-    echo "UserId is: " . $user_id . "<br>";
-
     if ($user_id == 0){
         echo "can't find user";
     }
     else{
         $classes = GetClass($user_id);
 
-        echo "Found: " . count($classes) . "<br>";
-
         echo "<h1> Classes: </h1>";
-
-        echo implode(", ", $classes);
-
         foreach ($classes as $class){
             echo "<h2>$class</h2>";
         }
