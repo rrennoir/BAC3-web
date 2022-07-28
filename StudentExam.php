@@ -23,17 +23,36 @@ function GetClass($id){
 
     require "config.php";
 
-    $result = $conn->query("SELECT class_name FROM class INNER JOIN class_student ON class.id = class_student.class_id AND student_id = '$id';");
+    $result = $conn->query("SELECT * FROM class INNER JOIN class_student ON class.id = class_student.class_id AND student_id = '$id';");
 
     $classes = array();
 
     if ($result && $result->num_rows) {
         while ($row = $result->fetch_assoc()) { 
-            array_push($classes, $row["class_name"]);
+            array_push($classes, $row);
         }
     }
 
     return $classes;
+}
+
+function GetExamInfo($class_info){
+
+    require "config.php";
+
+    $class_id = $class_info["id"];
+    $result = $conn->query("SELECT * FROM exam WHERE class_id = '$class_id'");
+
+    if ($result && $result->num_rows > 0){
+
+        $exams = array();
+        while ($row = $result->fetch_assoc()){
+            array_push($exams, $row);
+        }
+        return $exams;
+    }
+    
+    return null;
 }
 
 ?>
@@ -85,14 +104,22 @@ function GetClass($id){
     
     $user_id = GetUserId();
     if ($user_id == 0){
-        echo "can't find user";
+        echo "Invalid UserId";
     }
     else{
         $classes = GetClass($user_id);
 
-        echo "<h1> Classes: </h1>";
+        echo "<h2> Classes: </h1>";
         foreach ($classes as $class){
-            echo "<h2>$class</h2>";
+            echo "<h3>- " . $class["class_name"] . "</h2>";
+        }
+
+        echo "<h2>Exams</h2>";
+        foreach ($classes as $class){
+            $exam = GetExamInfo($class);
+            if ($exam){
+                echo "<h3>" . implode($exam) . "</h3>";
+            }
         }
     }
 
