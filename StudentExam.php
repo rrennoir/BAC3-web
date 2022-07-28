@@ -101,7 +101,7 @@ function GetClass($id){
         echo implode(", ", $classes);
 
         foreach ($classes as $class){
-            echo "<h2>$classes[$class]</h2>";
+            echo "<h2>$class</h2>";
         }
     }
 
