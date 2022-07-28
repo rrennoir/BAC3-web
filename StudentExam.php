@@ -94,7 +94,13 @@ function GetClass($id){
     else{
         $classes = GetClass($user_id);
 
-        echo "found: " . count($classes);
+        echo "Found: " . count($classes) . "<br>";
+
+        echo "<h1> Classes: </h1>";
+
+        foreach ($classes as $class){
+            echo "<h2>$class</h2>";
+        }
     }
 
     ?>
