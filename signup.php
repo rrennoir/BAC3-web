@@ -81,7 +81,7 @@ function AddUserToDb($conn)
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/profile.php">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">My exams</a></li>
+                        <li><a class="dropdown-item" href="/StudentExam.php">My exams</a></li>
                         <li><a class="dropdown-item" href="/logout.php">Logout</a></li>
                     </ul>
                 </div>
