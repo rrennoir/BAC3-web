@@ -49,33 +49,38 @@ session_start();
     <?php
     require_once "config.php";
     $username = $_SESSION["username"];
-    $result = $conn->query("SELECT id FROM user WHERE user.username = $username");
+    $result = $conn->query("SELECT id FROM user WHERE user.username = '$username'");
 
     if (!$result) {
         echo "Error in the DB query: " . $conn->error;
         die();
     }
 
-    if ($result->num_rows == 0){
+    if ($result->num_rows == 0) {
         echo "User not in database";
         die();
     }
     $row = $result->fetch_assoc();
     $user_id = $row["id"];
-    $result = $conn->query("SELECT student_id FROM class INNER JOIN class_student ON class.id = class_student.class_id AND student_id = $user_id;");
+    $result = $conn->query("SELECT student_id FROM class INNER JOIN class_student ON class.id = class_student.class_id AND student_id = '$user_id';");
 
-    if (!$result){
+    if (!$result) {
         echo "Error in DB query: " . $conn->error;
         die();
     }
 
-    echo "<table>"; // start a table tag in the HTML
+    if ($result->num_rows == 0) {
+        echo "Registered to no classes";
+    } else {
+
+        echo "<table>"; // start a table tag in the HTML
 
         while ($row = $result->fetch_assoc()) {   //Creates a loop to loop through results
             echo "<tr><td>" . $row['class_name'] . "</td><td>";
         }
 
         echo "</table>";
+    }
 
     ?>
 </body>
