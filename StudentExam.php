@@ -23,7 +23,7 @@ function GetClass($id){
 
     require "config.php";
 
-    $result = $conn->query("SELECT student_id FROM class INNER JOIN class_student ON class.id = class_student.class_id AND student_id = '$id';");
+    $result = $conn->query("SELECT class_name FROM class INNER JOIN class_student ON class.id = class_student.class_id AND student_id = '$id';");
 
     $classes = array();
 
