@@ -116,12 +116,15 @@ function GetExamInfo($class_info){
 
         echo "<h2>Exams</h2>";
         foreach ($classes as $class){
-            $exam = GetExamInfo($class);
+            $exams = GetExamInfo($class);
 
-            echo count($exam);
+            echo count($exams);
 
-            if ($exam){
-                echo "<h3>" . $exam["name"] . " " . $exam["exam_start_date"] . $exam["duration"] . "</h3>";
+            if ($exams){
+                foreach ($exams as $exam){
+                    echo "<h3>" . $exam["name"] . " " . $exam["exam_start_date"] . " " . $exam["duration"] . "</h3>";
+                }
+                
             }
         }
     }
