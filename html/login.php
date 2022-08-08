@@ -1,17 +1,16 @@
 <?php session_start();
 
 if ($_POST) {
-    if (Signup()){
+    if (Login()) {
         header('Location: index.php');
         exit();
     }
     else{
-        $error = "Username already exist";
+        $error = "Invalid username / password";
     }
 }
 
-
-function Signup()
+function Login()
 {
     require_once "config.php";
 
@@ -23,31 +22,20 @@ function Signup()
 
     if (!$result) {
         echo "Querry SELECT error: " . $conn->error . "<br>";
-    } elseif ($result->num_rows == 0) {
-        $_SESSION["username"] = $username;
-        return AddUserToDb($conn);
+    } elseif ($result->num_rows > 0) {
+
+        $row = $result->fetch_assoc();
+
+        if (password_verify($password, $row["password_hash"])){
+            $_SESSION["username"] = $username;
+            return true;
+        }
+        echo "Invalid password";
+
     } else {
-        echo "User already exist";
+        echo "No user found";
     }
     return false;
-}
-
-function AddUserToDb($conn)
-{
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $firstname = $_POST["firstname"];
-    $lastname = $_POST["lastname"];
-
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    $query = "INSERT INTO user (username, psw, firstname, lastname) VALUES ('$username', '$hashed_password', '$firstname', '$lastname');";
-    $result = $conn->query($query);
-    if (!$result) {
-        echo "failed to add user" . $conn->error . "<br>";
-        return false;
-    }
-    return true;
 }
 
 ?>
@@ -96,17 +84,15 @@ function AddUserToDb($conn)
 
 <body>
     <form method="POST" autocomplete="on">
-        <label>Username/E-mail</label><br>
+        <label>Username</label><br>
         <input type="text" name="username"><br>
-        <label>FirstName</label><br>
-        <input type="text" name="firstname"><br>
-        <label>LastName</label><br>
-        <input type="text" name="lastname"><br>
         <label>Password</label><br>
         <input type="text" name="password"><br><br>
         <input type="submit" value="Login">
     </form>
-    <?php echo $error ?>
+    <a href="/signup.php">No account yet ?</a>
+
+    <?php echo $error;?>
 </body>
 
 </html>

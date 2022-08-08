@@ -1,16 +1,17 @@
 <?php session_start();
 
 if ($_POST) {
-    if (Login()) {
+    if (Signup()){
         header('Location: index.php');
         exit();
     }
     else{
-        $error = "Invalid username / password";
+        $error = "Username already exist";
     }
 }
 
-function Login()
+
+function Signup()
 {
     require_once "config.php";
 
@@ -22,20 +23,29 @@ function Login()
 
     if (!$result) {
         echo "Querry SELECT error: " . $conn->error . "<br>";
-    } elseif ($result->num_rows > 0) {
-
-        $row = $result->fetch_assoc();
-
-        if (password_verify($password, $row["psw"])){
-            $_SESSION["username"] = $username;
-            return true;
-        }
-        echo "Invalid password";
-
+    } elseif ($result->num_rows == 0) {
+        $_SESSION["username"] = $username;
+        return AddUserToDb($conn);
     } else {
-        echo "No user found";
+        echo "User already exist";
     }
     return false;
+}
+
+function AddUserToDb($conn)
+{
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    $query = "INSERT INTO user (username, password_hash) VALUES ('$username', '$hashed_password');";
+    $result = $conn->query($query);
+    if (!$result) {
+        echo "failed to add user" . $conn->error . "<br>";
+        return false;
+    }
+    return true;
 }
 
 ?>
@@ -84,15 +94,13 @@ function Login()
 
 <body>
     <form method="POST" autocomplete="on">
-        <label>Username</label><br>
+        <label>Username/E-mail</label><br>
         <input type="text" name="username"><br>
         <label>Password</label><br>
         <input type="text" name="password"><br><br>
         <input type="submit" value="Login">
     </form>
-    <a href="/signup.php">No account yet ?</a>
-
-    <?php echo $error;?>
+    <?php echo $error ?>
 </body>
 
 </html>

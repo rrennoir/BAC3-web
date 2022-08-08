@@ -6,7 +6,7 @@ function GetUserId(){
     require "config.php";
     
     $username = $_SESSION["username"];
-    $result = $conn->query("SELECT id FROM user WHERE user.username = '$username'");
+    $result = $conn->query("SELECT * FROM user WHERE user.username = '$username'");
 
     if (!$result) {
         echo "Error in the DB query: " . $conn->error;
@@ -16,14 +16,14 @@ function GetUserId(){
         echo "User not in database";
     }
     $row = $result->fetch_assoc();
-    return $row["id"];
+    return $row["user_id"];
 }
 
 function GetClass($id){
 
     require "config.php";
 
-    $result = $conn->query("SELECT * FROM class INNER JOIN class_student ON class.id = class_student.class_id AND student_id = '$id';");
+    $result = $conn->query("SELECT class.* FROM class INNER JOIN class_student ON class.class_id = class_student.class_id AND student_id = '$id';");
 
     $classes = array();
 
@@ -40,7 +40,7 @@ function GetExamInfo($class_info){
 
     require "config.php";
 
-    $class_id = $class_info["id"];
+    $class_id = $class_info["class_id"];
     $result = $conn->query("SELECT * FROM exam WHERE class_id = '$class_id'");
 
     if ($result && $result->num_rows > 0){
@@ -54,7 +54,6 @@ function GetExamInfo($class_info){
     
     return null;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -85,8 +84,6 @@ function GetExamInfo($class_info){
                         <?php echo $_SESSION["username"]; ?>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/profile.php">Profile</a></li>
-                        <li><a class="dropdown-item" href="./StudentExam.php">My exams</a></li>
                         <li><a class="dropdown-item" href="/logout.php">Logout</a></li>
                     </ul>
                 </div>
@@ -100,36 +97,56 @@ function GetExamInfo($class_info){
 </nav>
 
 <body>
-    <?php
-    
-    $user_id = GetUserId();
-    if ($user_id == 0){
-        echo "Invalid UserId";
-    }
-    else{
-        $classes = GetClass($user_id);
+    <div class="container-fluid">
 
-        echo "<h2> Classes: </h1>";
-        foreach ($classes as $class){
-            echo "<h3>- " . $class["class_name"] . "</h2>";
+    <?php
+    require_once "config.php";
+    $username = $_SESSION["username"];
+    $query = "SELECT * FROM user WHERE user.username = '$username';";
+
+    $result = $conn->query($query);
+
+    if (!$result) {
+        echo "Querry SELECT error: " . $conn->error . "<br>";
+    } elseif ($result->num_rows > 0) {
+
+        echo "<table>"; // start a table tag in the HTML
+
+        while ($row = $result->fetch_assoc()) {   //Creates a loop to loop through results
+            echo "<tr><td>" . $row['user_id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['password_hash'] . "</td><td>";
         }
 
-        echo "<h2>Exams</h2>";
+        echo "</table>";
+
+
+        $user_id = GetUserId();
+        $classes = GetClass($user_id);
+
+        echo count($classes);
+
+        echo "<h2> Classes: </h2>";
+        foreach ($classes as $class){
+            echo "<h3>- " . $class["class_name"] . "</h3>";
+        }
+
+        echo "<h2>Exams: </h2>";
         foreach ($classes as $class){
             $exams = GetExamInfo($class);
 
-            echo count($exams);
-
             if ($exams){
                 foreach ($exams as $exam){
-                    echo "<h3>" . $exam["name"] . " " . $exam["exam_start_date"] . " " . $exam["duration"] . "</h3>";
+                    echo "<h3>" . $exam["exam_name"] . " " . $exam["exam_start_date"] . " " . $exam["duration"] . "<button>Something</button> </h3>";
                 }
                 
             }
         }
+
+    } else {
+        echo "User doesn't exist";
     }
 
     ?>
+    </div>
 </body>
 
 </html>
