@@ -45,6 +45,10 @@ foreach ($_POST as $key => $value) {
     }
 }
 
+if ($note < 0){
+    $note = 0;
+}
+
 $query_update_exam = "UPDATE student_exam SET result = '$note', exam_status = 'finished' WHERE student_exam_id = '$student_exam_id';";
 $result_update_exam = $conn->query($query_update_exam);
 

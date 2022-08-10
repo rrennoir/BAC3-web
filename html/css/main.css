@@ -1,0 +1,60 @@
+.spaced_radio{
+    margin-right: 10px;
+}
+
+.center{
+    margin: auto;
+    max-width: 90%;
+}
+
+.button {
+    border:1px solid transparent;
+    padding:.375rem .75rem;
+    background-color: rgb(47, 47, 255);
+    margin: 10px;
+    border-radius:.25rem;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button:hover{
+    background-color: lightblue;
+    color: gray;
+}
+
+.correct{
+    color: green;
+}
+
+.valid_anwser{
+    color: rgb(0, 17, 255);
+    font-weight: bold;
+}
+
+.incorrect{
+    color: red;
+    font-style: italic;
+}
+
+
+table.GeneratedTable {
+    width: 100%;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border-width: 2px;
+    border-color:  #c0c0c0;
+    border-style: solid;
+    color: #000000;
+  }
+  
+  table.GeneratedTable td, table.GeneratedTable th {
+    border-width: 2px;
+    border-color:  #c0c0c0;
+    border-style: solid;
+    padding: 3px;
+  }
+  
+  table.GeneratedTable thead {
+    background-color: #c0c0c0;
+  }

@@ -123,7 +123,7 @@ function ShowStudentExam()
 
     $user_id = GetUserId();
 
-    $query = "SELECT username, exam.exam_name, student_exam.exam_status, student_exam.student_exam_id, student_exam.result FROM student_exam INNER JOIN exam ON exam.exam_id = student_exam.exam_id INNER JOIN class ON class.class_id = exam.class_id INNER JOIN class_teacher ON class_teacher.teacher_id = '$user_id' INNER JOIN user ON user.user_id = student_exam.student_id;";
+    $query = "SELECT username, student_exam_id, exam_status, result, exam_name, teacher_id FROM student_exam INNER JOIN user ON user.user_id = student_id INNER JOIN exam ON exam.exam_id = student_exam.exam_id INNER JOIN class ON class.class_id = exam.class_id INNER JOIN class_teacher ON class_teacher.class_id = class.class_id WHERE teacher_id = '$user_id';";
 
     $result = $conn->query($query);
 
@@ -150,7 +150,7 @@ function ShowStudentExam()
         echo "<td>" . $row["username"] . "</td>";
         echo "<td>" . $row["exam_name"] . "</td>";
         echo "<td>" . $row["exam_status"] . "</td>";
-        echo "<td>" . $row["result"] . "</td>";
+        echo "<td>" . $row["result"] . " / 5</td>";
         echo "<td><a class='btn btn-primary' href='checkexam.php?exam_id=" . $row["student_exam_id"] . "'>Check</a></td>";
         echo "</tr></tbody>";
     }
@@ -176,8 +176,8 @@ function ShowMyPassedExams(){
     <table class='GeneratedTable'>
         <thead>
             <tr>
-                <th>Class</th>
                 <th>Name</th>
+                <th>Status</th>
                 <th>Result</th>
                 <th>Check Exam</th>
             </tr>
@@ -189,7 +189,7 @@ function ShowMyPassedExams(){
         echo "<tbody><tr>";
         echo "<td>" . $row["exam_name"] . "</td>";
         echo "<td>" . $row["exam_status"] . "</td>";
-        echo "<td>" . $row["result"] . "</td>";
+        echo "<td>" . $row["result"] . " / 5</td>";
         echo "<td><a class='btn btn-primary' href='checkexam.php?exam_id=" . $row["student_exam_id"] . "'>Check</a></td>";
         echo "</tr></tbody>";
     }
@@ -206,6 +206,7 @@ function ShowMyPassedExams(){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <nav class="navbar navbar-expand-sm bg-light">
@@ -238,7 +239,7 @@ function ShowMyPassedExams(){
 </nav>
 
 <body>
-    <div>
+    <div class="center">
 
         <?php
         require_once "config.php";

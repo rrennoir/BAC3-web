@@ -119,3 +119,55 @@ INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (9, "Anwser 3 Qu
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (10, "Anwser 1 Question 10", FALSE);
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (10, "Anwser 2 Question 10", TRUE);
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (10, "Anwser 3 Question 10", FALSE);
+
+
+INSERT INTO question(exam_id, question_text) VALUES (2, "1 + 1 =");
+INSERT INTO question(exam_id, question_text) VALUES (2, "10 / 2 =");
+INSERT INTO question(exam_id, question_text) VALUES (2, "4 * 3 =");
+INSERT INTO question(exam_id, question_text) VALUES (2, "10 * 10 =");
+INSERT INTO question(exam_id, question_text) VALUES (2, "100 / 5 =");
+INSERT INTO question(exam_id, question_text) VALUES (2, "3 / 3 =");
+INSERT INTO question(exam_id, question_text) VALUES (2, "12 * 5 =");
+INSERT INTO question(exam_id, question_text) VALUES (2, "60 + 9 = ");
+INSERT INTO question(exam_id, question_text) VALUES (2, "75 - 25 = ");
+INSERT INTO question(exam_id, question_text) VALUES (2, "50 + 50 = ");
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (11, "2", TRUE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (11, "11", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (11, "0", FALSE);
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (12, "12", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (12, "20", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (12, "5", TRUE);
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (13, "7", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (13, "12", TRUE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (13, "1.2", FALSE);
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (14, "10.0", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (14, "100", TRUE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (14, "1000", FALSE);
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (15, "25", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (15, "20", TRUE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (15, "50", FALSE);
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (16, "0.3333333333", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (16, "1", TRUE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (16, "3", FALSE);
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (17, "72", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (17, "60", TRUE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (17, "48", FALSE);
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (18, "68", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (18, "69", TRUE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (18, "66", FALSE);
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (19, "100", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (19, "50", TRUE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (19, "25", FALSE);
+
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (20, "101", FALSE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (20, "100", TRUE);
+INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (20, "99", FALSE);

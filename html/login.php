@@ -1,6 +1,6 @@
 <?php session_start();
 
-if ($_POST) {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (Login()) {
         header('Location: index.php');
         exit();
@@ -10,30 +10,22 @@ if ($_POST) {
     }
 }
 
+
 function Login()
-{
-    require_once "config.php";
+{   
 
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+    require "common.php";
 
-    $query = "SELECT * FROM user WHERE user.username = '$username';";
-    $result = $conn->query($query);
+    if (!empty($_POST["username"]) && !empty($_POST["password"])){
+        $username = trim(htmlspecialchars($_POST["username"]));
+        $password = trim(htmlspecialchars($_POST["password"]));
 
-    if (!$result) {
-        echo "Querry SELECT error: " . $conn->error . "<br>";
-    } elseif ($result->num_rows > 0) {
+        $user_data = GetUserData($username);
 
-        $row = $result->fetch_assoc();
-
-        if (password_verify($password, $row["password_hash"])){
+        if ($user_data && password_verify($password, $user_data["password_hash"])){
             $_SESSION["username"] = $username;
             return true;
         }
-        echo "Invalid password";
-
-    } else {
-        echo "No user found";
     }
     return false;
 }
@@ -88,9 +80,9 @@ function Login()
         <input type="text" name="password"><br><br>
         <input type="submit" value="Login">
     </form>
-    <a href="/signup.php">No account yet ?</a>
+    <a href="/signup.php">No account yet ?</a><br>
 
-    <?php echo $error;?>
+    <?php echo $error . "<br>"; ?>
 </body>
 
 </html>
