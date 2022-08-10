@@ -1,44 +1,4 @@
-<?php session_start();
-
-if ($_POST) {
-    if (Login()) {
-        header('Location: index.php');
-        exit();
-    }
-    else{
-        $error = "Invalid username / password";
-    }
-}
-
-function Login()
-{
-    require_once "config.php";
-
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-
-    $query = "SELECT * FROM user WHERE user.username = '$username';";
-    $result = $conn->query($query);
-
-    if (!$result) {
-        echo "Querry SELECT error: " . $conn->error . "<br>";
-    } elseif ($result->num_rows > 0) {
-
-        $row = $result->fetch_assoc();
-
-        if (password_verify($password, $row["password_hash"])){
-            $_SESSION["username"] = $username;
-            return true;
-        }
-        echo "Invalid password";
-
-    } else {
-        echo "No user found";
-    }
-    return false;
-}
-
-?>
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +8,7 @@ function Login()
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/exam_check.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
@@ -81,16 +42,42 @@ function Login()
 </nav>
 
 <body>
-    <form method="POST" autocomplete="on">
-        <label>Username</label><br>
-        <input type="text" name="username"><br>
-        <label>Password</label><br>
-        <input type="text" name="password"><br><br>
-        <input type="submit" value="Login">
-    </form>
-    <a href="/signup.php">No account yet ?</a>
+    <div style="margin: 10px;">
+    <?php
+    $exam_id = $_GET["exam_id"];
 
-    <?php echo $error;?>
+    require_once "config.php";
+
+    $query = "SELECT question_text, student_anwser.anwser_id, anwser_text, is_correct FROM student_exam INNER JOIN student_anwser ON student_anwser.student_exam_id = student_exam.student_exam_id INNER JOIN question ON question.question_id = student_anwser.question_id LEFT JOIN anwser ON anwser.anwser_id = student_anwser.anwser_id WHERE student_exam.student_exam_id = '$exam_id';";
+    $result = $conn->query($query);
+
+    if (!$result){
+        echo "Query exam anwser error: " . $conn->error;
+    }
+
+    while ($row = $result->fetch_assoc()){
+
+
+        echo "<h2>" . $row["question_text"] . "</h2>";
+
+        if ($row["anwser_text"] == NULL){
+            echo "<h3>I don't know</h3>";
+        }
+        else{
+            if ($row["is_correct"] == "1"){
+                $style = "correct";
+            }
+            else{
+                $style = "incorrect";
+            }
+
+            echo "<h2 class='" . $style . "'>" . $row["anwser_text"] . "</h2>";
+        }
+
+    }
+
+    ?>
+    </div>
 </body>
 
 </html>

@@ -2,9 +2,10 @@
 // Start the session
 session_start();
 
-function GetUserId(){
+function GetUserId()
+{
     require "config.php";
-    
+
     $username = $_SESSION["username"];
     $result = $conn->query("SELECT * FROM user WHERE user.username = '$username'");
 
@@ -19,7 +20,8 @@ function GetUserId(){
     return $row["user_id"];
 }
 
-function GetClass($id){
+function GetClass($id)
+{
 
     require "config.php";
 
@@ -28,7 +30,7 @@ function GetClass($id){
     $classes = array();
 
     if ($result && $result->num_rows) {
-        while ($row = $result->fetch_assoc()) { 
+        while ($row = $result->fetch_assoc()) {
             array_push($classes, $row);
         }
     }
@@ -36,23 +38,161 @@ function GetClass($id){
     return $classes;
 }
 
-function GetExamInfo($class_info){
+function GetExamInfo($class_info)
+{
 
     require "config.php";
 
     $class_id = $class_info["class_id"];
     $result = $conn->query("SELECT * FROM exam WHERE class_id = '$class_id'");
 
-    if ($result && $result->num_rows > 0){
+    if ($result && $result->num_rows > 0) {
 
         $exams = array();
-        while ($row = $result->fetch_assoc()){
+        while ($row = $result->fetch_assoc()) {
             array_push($exams, $row);
         }
         return $exams;
     }
-    
+
     return null;
+}
+
+function ShowMyExams()
+{
+    $user_id = GetUserId();
+    $classes = GetClass($user_id);
+
+    echo "<h2>Exams</h2>";
+    echo "
+        <table class='GeneratedTable'>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Start</th>
+                </tr>
+            </thead>
+        ";
+    foreach ($classes as $class) {
+        $exams = GetExamInfo($class);
+
+        if (!$exams)
+            continue;
+
+        foreach ($exams as $exam) {
+            echo "<tbody><tr>";
+            echo "<td>" . $exam["exam_id"] . "</td>";
+            echo "<td>" . $exam["exam_name"] . "</td>";
+            echo "<td><a class='btn btn-primary' href='studentexam.php?exam_id=" . $exam["exam_id"] . "'>StartExam</a></td>";
+            echo "</tr></tbody>";
+        }
+    }
+
+    echo "</table>";
+}
+
+function ShowMyClass()
+{
+    $user_id = GetUserId();
+    $classes = GetClass($user_id);
+
+    echo "<h2> Classes</h2>";
+    echo "
+        <table class='GeneratedTable'>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+        ";
+    foreach ($classes as $class) {
+        echo "<tbody><tr>";
+        echo "<td>" . $class["class_id"] . "</td>";
+        echo "<td>" . $class["class_name"] . "</td>";
+        echo "</tr></tbody>";
+    }
+
+    echo "</table>";
+}
+
+function ShowStudentExam()
+{
+    require "config.php";
+
+    $user_id = GetUserId();
+
+    $query = "SELECT username, exam.exam_name, student_exam.exam_status, student_exam.student_exam_id, student_exam.result FROM student_exam INNER JOIN exam ON exam.exam_id = student_exam.exam_id INNER JOIN class ON class.class_id = exam.class_id INNER JOIN class_teacher ON class_teacher.teacher_id = '$user_id' INNER JOIN user ON user.user_id = student_exam.student_id;";
+
+    $result = $conn->query($query);
+
+    if (!$result) {
+        echo "Student exams querry failed: " . $conn->error . "<br>";
+    }
+
+    echo "
+        <table class='GeneratedTable'>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Exam</th>
+                    <th>Status</th>
+                    <th>Result</th>
+                    <th>Check Exam</th>
+                </tr>
+            </thead>
+        ";
+
+    while ($row = $result->fetch_assoc()) {
+
+        echo "<tbody><tr>";
+        echo "<td>" . $row["username"] . "</td>";
+        echo "<td>" . $row["exam_name"] . "</td>";
+        echo "<td>" . $row["exam_status"] . "</td>";
+        echo "<td>" . $row["result"] . "</td>";
+        echo "<td><a class='btn btn-primary' href='checkexam.php?exam_id=" . $row["student_exam_id"] . "'>Check</a></td>";
+        echo "</tr></tbody>";
+    }
+    echo "</table>";
+}
+
+function ShowMyPassedExams(){
+
+    require "config.php";
+
+    $user_id = GetUserId();
+
+    $query = " SELECT * FROM student_exam INNER JOIN exam ON exam.exam_id = student_exam.exam_id WHERE student_id = '$user_id' AND exam_status = 'finished';";
+    $result = $conn->query($query);
+
+    if (!$result){
+        echo "Show passed exam query error: " . $conn->error;
+    }
+
+    echo "<h2>Passed Exams</h2>";
+
+    echo "
+    <table class='GeneratedTable'>
+        <thead>
+            <tr>
+                <th>Class</th>
+                <th>Name</th>
+                <th>Result</th>
+                <th>Check Exam</th>
+            </tr>
+        </thead>
+    ";
+
+    while ($row = $result->fetch_assoc()) {
+
+        echo "<tbody><tr>";
+        echo "<td>" . $row["exam_name"] . "</td>";
+        echo "<td>" . $row["exam_status"] . "</td>";
+        echo "<td>" . $row["result"] . "</td>";
+        echo "<td><a class='btn btn-primary' href='checkexam.php?exam_id=" . $row["student_exam_id"] . "'>Check</a></td>";
+        echo "</tr></tbody>";
+    }
 }
 ?>
 
@@ -65,6 +205,7 @@ function GetExamInfo($class_info){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/table.css">
 </head>
 
 <nav class="navbar navbar-expand-sm bg-light">
@@ -97,55 +238,35 @@ function GetExamInfo($class_info){
 </nav>
 
 <body>
-    <div class="container-fluid">
+    <div>
 
-    <?php
-    require_once "config.php";
-    $username = $_SESSION["username"];
-    $query = "SELECT * FROM user WHERE user.username = '$username';";
+        <?php
+        require_once "config.php";
+        $username = $_SESSION["username"];
+        $query = "SELECT * FROM user WHERE user.username = '$username';";
 
-    $result = $conn->query($query);
+        $result = $conn->query($query);
 
-    if (!$result) {
-        echo "Querry SELECT error: " . $conn->error . "<br>";
-    } elseif ($result->num_rows > 0) {
+        if (!$result) {
+            echo "Querry SELECT error: " . $conn->error . "<br>";
+        } elseif ($result->num_rows == 0) {
+            echo "Please sign in";
+        } else {
 
-        echo "<table>"; // start a table tag in the HTML
+            $user_data = $result->fetch_assoc();
 
-        while ($row = $result->fetch_assoc()) {   //Creates a loop to loop through results
-            echo "<tr><td>" . $row['user_id'] . "</td><td>" . $row['username'] . "</td><td>" . $row['password_hash'] . "</td><td>";
-        }
-
-        echo "</table>";
-
-
-        $user_id = GetUserId();
-        $classes = GetClass($user_id);
-
-        echo count($classes);
-
-        echo "<h2> Classes: </h2>";
-        foreach ($classes as $class){
-            echo "<h3>- " . $class["class_name"] . "</h3>";
-        }
-
-        echo "<h2>Exams: </h2>";
-        foreach ($classes as $class){
-            $exams = GetExamInfo($class);
-
-            if ($exams){
-                foreach ($exams as $exam){
-                    echo "<h3>" . $exam["exam_name"] . " " . $exam["exam_start_date"] . " " . $exam["duration"] . "<button>Something</button> </h3>";
-                }
-                
+            if ($user_data["user_type"] == "student") {
+                ShowMyClass();
+                ShowMyExams();
+                ShowMyPassedExams();
+            } elseif ($user_data["user_type"] == "teacher") {
+                ShowStudentExam();
+            } elseif ($user_data["user_type"] == "admin") {
+                echo "welcome admin";
             }
         }
 
-    } else {
-        echo "User doesn't exist";
-    }
-
-    ?>
+        ?>
     </div>
 </body>
 

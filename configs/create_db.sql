@@ -53,13 +53,14 @@ CREATE TABLE student_exam(
     exam_id INT NOT NULL,
     finish_date DATETIME,
     result FLOAT,
-    exam_status ENUM("Started, finished") NOT NULL
+    exam_status ENUM("started", "finished") NOT NULL
 );
 
 CREATE TABLE student_anwser(
     student_exam_id INT NOT NULL,
     question_id INT NOT NULL,
-    anwser_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL
+    anwser_id INT NOT NULL,
+    student_anwser_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT
 );
 
 INSERT INTO class ("class_name") VALUES ("Programming");
@@ -82,7 +83,6 @@ INSERT INTO question(exam_id, question_text) VALUES (1, "Question 10 Program");
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (1, "Anwser 1 Question 1", TRUE);
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (1, "Anwser 2 Question 1", FALSE);
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (1, "Anwser 3 Question 1", FALSE);
-
 
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (2, "Anwser 1 Question 2", FALSE);
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (2, "Anwser 2 Question 2", FALSE);
@@ -119,6 +119,3 @@ INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (9, "Anwser 3 Qu
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (10, "Anwser 1 Question 10", FALSE);
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (10, "Anwser 2 Question 10", TRUE);
 INSERT INTO anwser(question_id, anwser_text, is_correct) VALUES (10, "Anwser 3 Question 10", FALSE);
-
-SELECT question.question_id, question_text, anwser_id, anwser_text FROM exam INNER JOIN question ON exam.exam_id = question.exam_id INNER JOIN anwser ON question
-.question_id = anwser.question_id;

@@ -16,7 +16,6 @@ function Signup()
     require_once "config.php";
 
     $username = $_POST["username"];
-    $password = $_POST["password"];
 
     $query = "SELECT * FROM user WHERE user.username = '$username';";
     $result = $conn->query($query);
@@ -78,8 +77,6 @@ function AddUserToDb($conn)
                         <?php echo $_SESSION["username"]; ?>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/profile.php">Profile</a></li>
-                        <li><a class="dropdown-item" href="/StudentExam.php">My exams</a></li>
                         <li><a class="dropdown-item" href="/logout.php">Logout</a></li>
                     </ul>
                 </div>
